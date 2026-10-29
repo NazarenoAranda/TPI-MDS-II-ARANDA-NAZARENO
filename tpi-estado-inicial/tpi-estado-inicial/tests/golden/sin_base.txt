@@ -1,0 +1,11 @@
+$ reporte
+ERROR: La base de datos no existe. Ejecute primero: init-demo
+[exit 1]
+
+$ registrar --legajo 1001 --tipo CERTIFICADO --descripcion x
+ERROR: La base de datos no existe. Ejecute primero: init-demo
+[exit 1]
+
+$ buscar
+ERROR: La base de datos no existe. Ejecute primero: init-demo
+[exit 1]
