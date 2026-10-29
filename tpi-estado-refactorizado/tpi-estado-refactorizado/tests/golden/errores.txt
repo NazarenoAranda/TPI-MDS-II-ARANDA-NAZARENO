@@ -1,0 +1,96 @@
+$ init-demo
+Base inicializada: 5 estudiantes, 3 responsables.
+[exit 0]
+
+$ registrar --legajo 1001 --tipo foo --descripcion x
+ERROR: Tipo invalido 'FOO'. Valores validos: CERTIFICADO, EQUIVALENCIA, REINCORPORACION, CONSULTA.
+[exit 1]
+
+$ registrar --legajo 1001 --tipo CERTIFICADO --prioridad urgente --descripcion x
+ERROR: Prioridad invalida 'URGENTE'. Valores validos: BAJA, MEDIA, ALTA.
+[exit 1]
+
+$ registrar --legajo 1001 --tipo CERTIFICADO --descripcion '   '
+ERROR: La descripcion no puede estar vacia.
+[exit 1]
+
+$ registrar --legajo 1001 --tipo CERTIFICADO --descripcion aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+ERROR: La descripcion supera los 200 caracteres.
+[exit 1]
+
+$ registrar --legajo 9999 --tipo CERTIFICADO --descripcion 'Legajo inexistente'
+ERROR: No existe el estudiante con legajo '9999'.
+[exit 1]
+
+$ registrar --legajo '1001'"'"' OR '"'"'1'"'"'='"'"'1' --tipo CERTIFICADO --descripcion 'Intento de inyeccion'
+ERROR: No existe el estudiante con legajo '1001' OR '1'='1'.
+[exit 1]
+
+$ registrar --legajo 1001 --tipo CERTIFICADO --descripcion aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+Solicitud #1 registrada (CERTIFICADO, prioridad MEDIA, estado NUEVA).
+[exit 0]
+
+$ cambiar-estado --id 1 --estado pendiente
+ERROR: Estado invalido 'PENDIENTE'. Valores validos: NUEVA, EN_PROCESO, RESUELTA, CERRADA.
+[exit 1]
+
+$ cambiar-estado --id 99 --estado EN_PROCESO
+ERROR: No existe la solicitud #99.
+[exit 1]
+
+$ cambiar-estado --id 1 --estado NUEVA
+ERROR: La solicitud #1 ya esta en estado NUEVA.
+[exit 1]
+
+$ cambiar-estado --id 1 --estado EN_PROCESO
+ERROR: La solicitud #1 necesita un responsable antes de pasar a EN_PROCESO.
+[exit 1]
+
+$ cambiar-estado --id 1 --estado RESUELTA
+ERROR: La solicitud #1 necesita un responsable antes de pasar a RESUELTA.
+[exit 1]
+
+$ asignar --id 99 --responsable 1
+ERROR: No existe la solicitud #99.
+[exit 1]
+
+$ asignar --id 1 --responsable 99
+ERROR: No existe el responsable con id 99.
+[exit 1]
+
+$ asignar --id 1 --responsable 1
+Solicitud #1 asignada a Laura Medina (Alumnado).
+Solicitud #1 paso automaticamente a EN_PROCESO.
+[exit 0]
+
+$ asignar --id 1 --responsable 2
+Solicitud #1 asignada a Martin Sosa (Equivalencias).
+[exit 0]
+
+$ cambiar-estado --id 1 --estado CERRADA
+Solicitud #1: estado EN_PROCESO -> CERRADA.
+[exit 0]
+
+$ cambiar-estado --id 1 --estado NUEVA
+ERROR: La solicitud #1 esta CERRADA y no admite cambios de estado.
+[exit 1]
+
+$ asignar --id 1 --responsable 3
+ERROR: No se puede asignar responsable a la solicitud #1 porque esta CERRADA.
+[exit 1]
+
+$ buscar --estado xx
+ERROR: Estado invalido 'XX'. Valores validos: NUEVA, EN_PROCESO, RESUELTA, CERRADA.
+[exit 1]
+
+$ buscar --tipo xx
+ERROR: Tipo invalido 'XX'. Valores validos: CERTIFICADO, EQUIVALENCIA, REINCORPORACION, CONSULTA.
+[exit 1]
+
+$ buscar --prioridad xx
+ERROR: Prioridad invalida 'XX'. Valores validos: BAJA, MEDIA, ALTA.
+[exit 1]
+
+$ buscar --texto 'texto que no existe'
+No se encontraron solicitudes.
+[exit 0]

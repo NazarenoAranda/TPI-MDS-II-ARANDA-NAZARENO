@@ -1,0 +1,141 @@
+$ init-demo
+Base inicializada: 5 estudiantes, 3 responsables.
+[exit 0]
+
+$ registrar --legajo 1001 --tipo CERTIFICADO --prioridad MEDIA --descripcion 'Necesito certificado de alumno regular'
+Solicitud #1 registrada (CERTIFICADO, prioridad MEDIA, estado NUEVA).
+[exit 0]
+
+$ registrar --legajo 1002 --tipo REINCORPORACION --prioridad BAJA --descripcion 'Solicito reincorporacion a la carrera'
+Aviso: prioridad elevada a MEDIA por tipo REINCORPORACION.
+Solicitud #2 registrada (REINCORPORACION, prioridad MEDIA, estado NUEVA).
+[exit 0]
+
+$ registrar --legajo 1003 --tipo EQUIVALENCIA --prioridad ALTA --descripcion 'Equivalencia de Matematica I'
+Solicitud #3 registrada (EQUIVALENCIA, prioridad ALTA, estado NUEVA).
+[exit 0]
+
+$ registrar --legajo 1004 --tipo consulta --prioridad alta --descripcion 'Consulta sobre fechas de examen'
+Aviso: prioridad reducida a MEDIA por tipo CONSULTA.
+Solicitud #4 registrada (CONSULTA, prioridad MEDIA, estado NUEVA).
+[exit 0]
+
+$ registrar --legajo 1005 --tipo CERTIFICADO --descripcion 'No me anda el campus d'"'"'alumno'
+Solicitud #5 registrada (CERTIFICADO, prioridad MEDIA, estado NUEVA).
+[exit 0]
+
+$ registrar --legajo ' 1001 ' --tipo EQUIVALENCIA --prioridad BAJA --descripcion '  Equivalencia de Ingles  '
+Solicitud #6 registrada (EQUIVALENCIA, prioridad BAJA, estado NUEVA).
+[exit 0]
+
+$ asignar --id 1 --responsable 1
+Solicitud #1 asignada a Laura Medina (Alumnado).
+Solicitud #1 paso automaticamente a EN_PROCESO.
+[exit 0]
+
+$ asignar --id 3 --responsable 2
+Solicitud #3 asignada a Martin Sosa (Equivalencias).
+Solicitud #3 paso automaticamente a EN_PROCESO.
+[exit 0]
+
+$ asignar --id 2 --responsable 3
+Solicitud #2 asignada a Julia Ferrari (Bedelia).
+Solicitud #2 paso automaticamente a EN_PROCESO.
+[exit 0]
+
+$ cambiar-estado --id 1 --estado resuelta
+Solicitud #1: estado EN_PROCESO -> RESUELTA.
+[exit 0]
+
+$ cambiar-estado --id 3 --estado RESUELTA
+Solicitud #3: estado EN_PROCESO -> RESUELTA.
+[exit 0]
+
+$ cambiar-estado --id 1 --estado CERRADA
+Solicitud #1: estado RESUELTA -> CERRADA.
+[exit 0]
+
+$ cambiar-estado --id 2 --estado NUEVA
+Solicitud #2: estado EN_PROCESO -> NUEVA.
+[exit 0]
+
+$ buscar
+#1 | CERTIFICADO | MEDIA | CERRADA | 1001 Ana Perez | Laura Medina | Necesito certificado de alumno regular
+#2 | REINCORPORACION | MEDIA | NUEVA | 1002 Bruno Gomez | Julia Ferrari | Solicito reincorporacion a la carrera
+#3 | EQUIVALENCIA | ALTA | RESUELTA | 1003 Carla Diaz | Martin Sosa | Equivalencia de Matematica I
+#4 | CONSULTA | MEDIA | NUEVA | 1004 Diego Torres | sin asignar | Consulta sobre fechas de examen
+#5 | CERTIFICADO | MEDIA | NUEVA | 1005 Elena Ruiz | sin asignar | No me anda el campus d'alumno
+#6 | EQUIVALENCIA | BAJA | NUEVA | 1001 Ana Perez | sin asignar | Equivalencia de Ingles
+Total: 6 solicitud(es)
+[exit 0]
+
+$ buscar --estado en_proceso
+No se encontraron solicitudes.
+[exit 0]
+
+$ buscar --tipo certificado
+#1 | CERTIFICADO | MEDIA | CERRADA | 1001 Ana Perez | Laura Medina | Necesito certificado de alumno regular
+#5 | CERTIFICADO | MEDIA | NUEVA | 1005 Elena Ruiz | sin asignar | No me anda el campus d'alumno
+Total: 2 solicitud(es)
+[exit 0]
+
+$ buscar --prioridad ALTA
+#3 | EQUIVALENCIA | ALTA | RESUELTA | 1003 Carla Diaz | Martin Sosa | Equivalencia de Matematica I
+Total: 1 solicitud(es)
+[exit 0]
+
+$ buscar --texto CAMPUS
+#5 | CERTIFICADO | MEDIA | NUEVA | 1005 Elena Ruiz | sin asignar | No me anda el campus d'alumno
+Total: 1 solicitud(es)
+[exit 0]
+
+$ buscar --sin-responsable
+#4 | CONSULTA | MEDIA | NUEVA | 1004 Diego Torres | sin asignar | Consulta sobre fechas de examen
+#5 | CERTIFICADO | MEDIA | NUEVA | 1005 Elena Ruiz | sin asignar | No me anda el campus d'alumno
+#6 | EQUIVALENCIA | BAJA | NUEVA | 1001 Ana Perez | sin asignar | Equivalencia de Ingles
+Total: 3 solicitud(es)
+[exit 0]
+
+$ buscar --responsable 2
+#3 | EQUIVALENCIA | ALTA | RESUELTA | 1003 Carla Diaz | Martin Sosa | Equivalencia de Matematica I
+Total: 1 solicitud(es)
+[exit 0]
+
+$ buscar --legajo 1001
+#1 | CERTIFICADO | MEDIA | CERRADA | 1001 Ana Perez | Laura Medina | Necesito certificado de alumno regular
+#6 | EQUIVALENCIA | BAJA | NUEVA | 1001 Ana Perez | sin asignar | Equivalencia de Ingles
+Total: 2 solicitud(es)
+[exit 0]
+
+$ buscar --tipo EQUIVALENCIA --estado NUEVA
+#6 | EQUIVALENCIA | BAJA | NUEVA | 1001 Ana Perez | sin asignar | Equivalencia de Ingles
+Total: 1 solicitud(es)
+[exit 0]
+
+$ reporte
+=== REPORTE DE SOLICITUDES ===
+Total de solicitudes: 6
+Sin responsable asignado: 3
+
+Por estado:
+  NUEVA: 4
+  EN_PROCESO: 0
+  RESUELTA: 1
+  CERRADA: 1
+
+Por tipo:
+  CERTIFICADO: 2 (plazo estimado: 5 dias)
+  EQUIVALENCIA: 2 (plazo estimado: 15 dias)
+  REINCORPORACION: 1 (plazo estimado: 10 dias)
+  CONSULTA: 1 (plazo estimado: 3 dias)
+
+Por prioridad:
+  ALTA: 1
+  MEDIA: 4
+  BAJA: 1
+
+Carga por responsable:
+  Laura Medina (Alumnado): 1
+  Martin Sosa (Equivalencias): 1
+  Julia Ferrari (Bedelia): 1
+[exit 0]
